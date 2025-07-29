@@ -24,7 +24,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const volumeBtn = document.getElementById('volumeBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
     const progressBar = document.getElementById('progressBar');
+    const playlistBtn = document.getElementById('playlistBtn');
+    const playlistDropdown = document.getElementById('playlistDropdown');
+    const playlistItems = document.querySelectorAll('.playlist-item');
     
     // Playlist
     const playlist = [
@@ -43,6 +47,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function initPlayer() {
         audioPlayer.src = playlist[currentTrackIndex];
         updateProgress();
+        
+        // Set initial volume
+        audioPlayer.volume = volumeSlider.value / 100;
+        
+        // Set first track as active in playlist
+        playlistItems[0].classList.add('active');
     }
     
     // Play/Pause functionality
@@ -79,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Toggle volume
     function toggleVolume() {
         if (isMuted) {
-            audioPlayer.volume = 1;
+            audioPlayer.volume = volumeSlider.value / 100;
             volumeBtn.textContent = '🔊';
             isMuted = false;
         } else {
@@ -87,6 +97,35 @@ document.addEventListener('DOMContentLoaded', function() {
             volumeBtn.textContent = '🔇';
             isMuted = true;
         }
+    }
+    
+    // Update volume from slider
+    function updateVolume() {
+        if (!isMuted) {
+            audioPlayer.volume = volumeSlider.value / 100;
+        }
+    }
+    
+    // Toggle playlist dropdown
+    function togglePlaylist() {
+        playlistDropdown.classList.toggle('show');
+    }
+    
+    // Select track from playlist
+    function selectTrack(trackIndex) {
+        currentTrackIndex = trackIndex;
+        audioPlayer.src = playlist[trackIndex];
+        if (isPlaying) {
+            audioPlayer.play();
+        }
+        
+        // Update active item in playlist
+        playlistItems.forEach((item, index) => {
+            item.classList.toggle('active', index === trackIndex);
+        });
+        
+        // Close dropdown
+        playlistDropdown.classList.remove('show');
     }
     
     // Update progress bar
@@ -100,6 +139,20 @@ document.addEventListener('DOMContentLoaded', function() {
     prevBtn.addEventListener('click', prevTrack);
     nextBtn.addEventListener('click', nextTrack);
     volumeBtn.addEventListener('click', toggleVolume);
+    volumeSlider.addEventListener('input', updateVolume);
+    playlistBtn.addEventListener('click', togglePlaylist);
+    
+    // Playlist item click events
+    playlistItems.forEach((item, index) => {
+        item.addEventListener('click', () => selectTrack(index));
+    });
+    
+    // Close playlist dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!playlistBtn.contains(e.target) && !playlistDropdown.contains(e.target)) {
+            playlistDropdown.classList.remove('show');
+        }
+    });
     
     // Progress bar click to seek
     const progressBarContainer = document.querySelector('.progress-bar');
@@ -120,4 +173,94 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize the player
     initPlayer();
+    
+    // Background change functionality
+    const bgButtons = document.querySelectorAll('.bg-btn');
+    const body = document.body;
+    
+    // Background options
+    const backgrounds = {
+        default: {
+            backgroundImage: 'url(\'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDUwIDUwIj48Y2lyY2xlIGN4PSIyNSIgY3k9IjI1IiByPSI4IiBmaWxsPSIjODgzM2RkIiBvcGFjaXR5PSIwLjUiLz48L3N2Zz4=\')',
+            backgroundColor: 'var(--secondary-bg)'
+        },
+        gradient: {
+            backgroundImage: 'linear-gradient(45deg, #667eea 0%, #764ba2 100%)',
+            backgroundColor: 'transparent'
+        },
+        stars: {
+            backgroundImage: 'radial-gradient(2px 2px at 20px 30px, #eee, transparent), radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent), radial-gradient(2px 2px at 50px 160px, #ddd, transparent), radial-gradient(2px 2px at 90px 40px, #fff, transparent), radial-gradient(2px 2px at 130px 80px, rgba(255,255,255,0.6), transparent), radial-gradient(2px 2px at 160px 30px, #ddd, transparent)',
+            backgroundColor: '#1a1a2e'
+        },
+        purple: {
+            backgroundImage: 'linear-gradient(45deg, #8833dd 0%, #6a1b9a 100%)',
+            backgroundColor: 'transparent'
+        },
+        green: {
+            backgroundImage: 'linear-gradient(45deg, #44cc66 0%, #2e7d32 100%)',
+            backgroundColor: 'transparent'
+        },
+        red: {
+            backgroundImage: 'linear-gradient(45deg, #dd3333 0%, #b71c1c 100%)',
+            backgroundColor: 'transparent'
+        },
+        brown: {
+            backgroundImage: 'linear-gradient(45deg, #885533 0%, #5d4037 100%)',
+            backgroundColor: 'transparent'
+        },
+        dark: {
+            backgroundImage: 'linear-gradient(45deg, #333333 0%, #1a1a1a 100%)',
+            backgroundColor: 'transparent'
+        },
+        cyan: {
+            backgroundImage: 'linear-gradient(45deg, #33ccdd 0%, #00838f 100%)',
+            backgroundColor: 'transparent'
+        }
+    };
+    
+    // Set default background
+    let currentBg = 'default';
+    bgButtons[0].classList.add('active');
+    
+    // Background change event listeners
+    bgButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const bgType = this.getAttribute('data-bg');
+            
+            // Remove active class from all buttons
+            bgButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            // Apply background
+            const bg = backgrounds[bgType];
+            body.style.backgroundImage = bg.backgroundImage;
+            body.style.backgroundColor = bg.backgroundColor;
+            
+            currentBg = bgType;
+        });
+    });
+    
+    // NFT pattern background change functionality
+    const nftPatterns = document.querySelectorAll('.nft-pattern');
+    
+    nftPatterns.forEach(pattern => {
+        pattern.addEventListener('click', function() {
+            const bgType = this.getAttribute('data-bg');
+            
+            // Remove active class from all patterns
+            nftPatterns.forEach(p => p.classList.remove('active'));
+            
+            // Add active class to clicked pattern
+            this.classList.add('active');
+            
+            // Apply background
+            const bg = backgrounds[bgType];
+            body.style.backgroundImage = bg.backgroundImage;
+            body.style.backgroundColor = bg.backgroundColor;
+            
+            currentBg = bgType;
+        });
+    });
 }); 

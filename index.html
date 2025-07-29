@@ -19,6 +19,11 @@
             <div class="user-actions">
                 <span>Hello, BirdDog!</span>
                 <button class="btn">Buy Now</button>
+                <div class="bg-options">
+                    <button class="bg-btn" data-bg="default">🌙</button>
+                    <button class="bg-btn" data-bg="gradient">🌈</button>
+                    <button class="bg-btn" data-bg="stars">⭐</button>
+                </div>
             </div>
         </header>
         
@@ -40,7 +45,7 @@
             </div>
             
             <div class="profile-card">
-                <img class="profile-avatar" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgMjAwIDIwMCI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNGRkQ3MDAiLz48Y2lyY2xlIGN4PSI3MCIgY3k9IjgwIiByPSIyMCIgZmlsbD0iYmxhY2siLz48Y2lyY2xlIGN4PSIxMzAiIGN5PSI4MCIgcj0iMjAiIGZpbGw9ImJsYWNrIi8+PHBhdGggZD0iTTcwLDEzMCBRMTAwLDE2MCAxMzAsMTMwIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjUiIGZpbGw9Im5vbmUiLz48cmVjdCB4PSI3MCIgeT0iMzAiIHdpZHRoPSI2MCIgaGVpZ2h0PSIzMCIgZmlsbD0iIzY2MzM5OSIgcng9IjEwIiByeT0iMTAiLz48L3N2Zz4=" alt="BirdDog">
+                <img class="profile-avatar" src="images/birddogpfp.webp" alt="BirdDog">
                 <div class="profile-info">
                     <div class="profile-name">
                         <h2>BirdDog</h2>
@@ -83,19 +88,16 @@
         <aside class="right-sidebar">
             <div class="sidebar">
                 <div class="nft-patterns">
-                    <div class="nft-pattern" style="background-color: #8833dd;"></div>
-                    <div class="nft-pattern" style="background-color: #44cc66;"></div>
-                    <div class="nft-pattern" style="background-color: #dd3333;"></div>
-                    <div class="nft-pattern" style="background-color: #885533;"></div>
-                    <div class="nft-pattern" style="background-color: #333333;"></div>
-                    <div class="nft-pattern" style="background-color: #33ccdd;"></div>
+                    <div class="nft-pattern" data-bg="purple" style="background-color: #8833dd;"></div>
+                    <div class="nft-pattern" data-bg="green" style="background-color: #44cc66;"></div>
+                    <div class="nft-pattern" data-bg="red" style="background-color: #dd3333;"></div>
+                    <div class="nft-pattern" data-bg="brown" style="background-color: #885533;"></div>
+                    <div class="nft-pattern" data-bg="dark" style="background-color: #333333;"></div>
+                    <div class="nft-pattern" data-bg="cyan" style="background-color: #33ccdd;"></div>
                 </div>
                 
-                <h3>Contract Address:</h3>
-                <div class="contract-address">
-                    <span>3X1p12PnKMHk9BYkwsGPUMCl</span>
-                    <button class="copy-btn">📋</button>
-                </div>
+                <h3>Coming Soon</h3>
+                <p>Contract address will be available soon!</p>
                 
                 <h3>Follow Us</h3>
                 <div class="social-links">
@@ -160,26 +162,43 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="sidebar">
+                <h3>Music Player</h3>
+                <div class="music-player">
+                    <div class="player-controls">
+                        <button class="player-btn" id="prevBtn">⏮</button>
+                        <button class="player-btn play-circle" id="playBtn">▶</button>
+                        <button class="player-btn" id="nextBtn">⏭</button>
+                        <div class="playlist-container">
+                            <button class="player-btn" id="playlistBtn">≡</button>
+                            <div class="playlist-dropdown" id="playlistDropdown">
+                                <div class="playlist-item" data-track="0">Track 1</div>
+                                <div class="playlist-item" data-track="1">Track 2</div>
+                                <div class="playlist-item" data-track="2">Track 3</div>
+                                <div class="playlist-item" data-track="3">Track 4</div>
+                                <div class="playlist-item" data-track="4">Track 5</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progressBar"></div>
+                    </div>
+                    <div class="volume-control">
+                        <button class="player-btn" id="volumeBtn">🔊</button>
+                        <input type="range" id="volumeSlider" min="0" max="100" value="100" class="volume-slider">
+                    </div>
+                
+                </div>
+                <audio id="audioPlayer" preload="metadata">
+                    <source src="music/1.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
         </aside>
         
         <footer>
-            <div class="music-player">
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIyMCIgZmlsbD0iIzg4MzNkZCIvPjx0ZXh0IHg9IjIwIiB5PSIyNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pqUITwvdGV4dD48L3N2Zz4=" alt="Album Art">
-                <div class="player-controls">
-                    <button class="player-btn" id="prevBtn">⏮</button>
-                    <button class="player-btn" id="playBtn">▶</button>
-                    <button class="player-btn" id="nextBtn">⏭</button>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress" id="progressBar"></div>
-                </div>
-                <button class="player-btn" id="volumeBtn">🔊</button>
-                <button class="player-btn" id="playlistBtn">≡</button>
-            </div>
-            <audio id="audioPlayer" preload="metadata">
-                <source src="music/1.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
+            <!-- Footer content can be added here if needed -->
         </footer>
     </div>
     
